@@ -1,0 +1,9 @@
+flask==3.1.0
+flask[async]==3.1.0
+flask_basicauth==0.2.0
+python-dotenv==1.0.1
+webcolors==24.11.1
+langchain_core==0.3.21
+langchain==0.3.8
+langchain_community==0.3.8
+langchain_ollama==0.2.0
