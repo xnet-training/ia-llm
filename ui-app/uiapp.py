@@ -2,7 +2,7 @@ import json
 from flask import Flask, request, jsonify, Response
 from flask_basicauth import BasicAuth
 
-from python.helpers.files import get_absolute_path
+from python.helpers.files import get_abs_path
 from python.helpers.dotenv import load_dotenv
 from python.helpers.print_style import PrintStyle
 
@@ -16,7 +16,7 @@ import os
 from werkzeug.serving import WSGIRequestHandler
 from pathlib import Path
 
-app = Flask("app", static_folder=get_absolute_path("./web"), static_url_path="/")
+app = Flask("app", static_folder=get_abs_path("./web"), static_url_path="/")
 app.config["JSON_SORT_KEYS"] = False
 
 lock = threading.Lock()

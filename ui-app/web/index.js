@@ -59,6 +59,7 @@ function setupSidebarToggle() {
 document.addEventListener('DOMContentLoaded', setupSidebarToggle);
 
 async function sendMessage() {
+    
     try {
         const message = chatInput.value.trim();
         if (message) {
