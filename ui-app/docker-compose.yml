@@ -1,0 +1,9 @@
+version: "3.8"
+
+services:
+  iallm:
+    image: comsatel/iallm:${IMAGE_VERSION:-0.1.0}
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env

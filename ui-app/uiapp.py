@@ -45,7 +45,7 @@ def get_context(ctxid: str):
 
 @app.route("/", methods=["GET"])
 async def test_form():
-    return Path(get_absolute_path("./web/index.html")).read_text()
+    return Path(get_abs_path("./web/index.html")).read_text()
 
 # send message to agent (async UI)
 @app.route("/msg", methods=["POST"])
