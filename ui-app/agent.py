@@ -541,6 +541,7 @@ class Agent:
     async def process_tools(self, msg: str):
         # search for tool usage requests in agent message
         tool_request = extract_tools.json_parse_dirty(msg)
+        print(f"[Herramienta Ejecutar] ${tool_request} para mensaje ${msg}")
 
         if tool_request is not None:
             tool_name = tool_request.get("tool_name", "")

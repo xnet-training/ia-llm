@@ -1,15 +1,20 @@
 import models
 from agent import AgentConfig
-#from python.helpers import files
+import os
+
+from python.helpers import files
 
 def initialize():
+    model_name = os.getenv("LLM_MODEL_NAME") or "llama2:latest"
+    embed_model_name = os.getenv("LLM_EMBED_MODEL_NAME") or "nomic-embed-text"
     #chat_llm = models.get_openai_chat(model_name="gpt-4o-mini", temperature=0)
     #chat_llm = models.get_ollama_chat(model_name="llama3.2:3b-instruct-fp16", temperature=0)
-    chat_llm = models.get_ollama_chat(model_name="llama2:latest", temperature=0)
+    #chat_llm = models.get_ollama_chat(model_name=model_name, temperature=0)
+    chat_llm = models.get_groq_chat(model_name=model_name, temperature = 0)
 
     utility_llm = chat_llm
     
-    embedding_llm = models.get_ollama_embedding(model_name="nomic-embed-text")
+    embedding_llm = models.get_ollama_embedding(model_name=embed_model_name)
 
     config = AgentConfig(
             chat_model = chat_llm,
