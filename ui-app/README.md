@@ -5,6 +5,10 @@
 docker buildx build --progress=plain . -t comsatel/iallm:0.1.0
 ```
 
+```sh
+docker buildx build . -f Dockerfile_exec -t comsatel/agent0_exec:latest
+```
+
 # Instalacion de enorno local
 
 ```sh

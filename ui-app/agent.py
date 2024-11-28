@@ -1,3 +1,4 @@
+import os
 import asyncio
 from dataclasses import dataclass, field
 import time, importlib, inspect, os, json
@@ -133,8 +134,8 @@ class AgentConfig:
     response_timeout_seconds: int = 60
     max_tool_response_length: int = 3000
     code_exec_docker_enabled: bool = True
-    code_exec_docker_name: str = "agent-zero-exe"
-    code_exec_docker_image: str = "frdel/agent-zero-exe:latest"
+    code_exec_docker_name: str = "agent-comsatel-exe" # "agent-zero-exe"
+    code_exec_docker_image: str = "comsatel/agent-zero-exe:1.0.0" #"frdel/agent-zero-exe:latest"
     code_exec_docker_ports: dict[str, int] = field(
         default_factory=lambda: {"22/tcp": 50022}
     )
@@ -145,7 +146,7 @@ class AgentConfig:
         }
     )
     code_exec_ssh_enabled: bool = True
-    code_exec_ssh_addr: str = "localhost"
+    code_exec_ssh_addr: str = os.getenv("SSH_HOST_NAME") or "localhost"
     code_exec_ssh_port: int = 50022
     code_exec_ssh_user: str = "root"
     code_exec_ssh_pass: str = "toor"

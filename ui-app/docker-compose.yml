@@ -8,11 +8,16 @@ services:
     env_file:
       - .env
     environment:
-      LLM_MODEL_NAME: "llama-3.2-90b-text-preview" #llama3.2:3b
+      LLM_MODEL_NAME: llama3-8b-8192
+      # "lama3-groq-70b-8192-tool-use-preview" 
+      #"llama-3.2-90b-text-preview" 
+      ##llama3.2:3b
       LLM_EMBED_MODEL_NAME: "nomic-embed-text" #"nomic-embed-text:v1.5"
       GROQ_API_KEY: ${GROQ_API_KEY:-CHANGEME}
+      SSH_HOST_NAME: "172.17.8.20"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "./knowledge:/app/src/knowledge:rw"
       - "./instruments:/app/src/instruments:rw"
       - "./memory:/app/src/memory:rw"
+      - "./work_dir:/app/src/work_dir:rw"
