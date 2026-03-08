@@ -1,0 +1,8 @@
+
+services:
+  autogenstudio:
+    image: crossnetcorp/autogenstudio:0.1.0
+    ports:
+      - "8081:8081"
+    volumes:
+      - "./autogen/data:/app/data"
