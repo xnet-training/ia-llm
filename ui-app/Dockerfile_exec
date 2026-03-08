@@ -1,0 +1,5 @@
+FROM python:3.12.7
+
+EXPOSE 22
+EXPOSE 50022
+

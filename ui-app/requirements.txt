@@ -7,4 +7,10 @@ langchain_core==0.3.21
 langchain==0.3.8
 langchain_community==0.3.8
 langchain_ollama==0.2.0
-regex
+regex==2024.11.6
+faiss-cpu==1.9.0
+openai==1.55.0
+duckduckgo_search==6.3.6
+langchain-groq==0.2.1
+paramiko==3.5.0
+docker==7.1.0

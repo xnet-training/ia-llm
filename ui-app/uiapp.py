@@ -16,6 +16,8 @@ import os
 from werkzeug.serving import WSGIRequestHandler
 from pathlib import Path
 
+from python.helpers import persist_chat
+
 app = Flask("app", static_folder=get_abs_path("./web"), static_url_path="/")
 app.config["JSON_SORT_KEYS"] = False
 
@@ -104,6 +106,156 @@ async def handle_message(sync: bool):
         PrintStyle.error(str(e))
 
     return jsonify(response)
+
+
+# killing context
+@app.route("/remove", methods=["POST"])
+async def remove():
+    try:
+
+        # data sent to the server
+        input = request.get_json()
+        ctxid = input.get("context", "")
+
+        # context instance - get or create
+        AgentContext.remove(ctxid)
+        persist_chat.remove_chat(ctxid)
+
+        response = {
+            "ok": True,
+            "message": "Context removed.",
+        }
+
+    except Exception as e:
+        response = {
+            "ok": False,
+            "message": str(e),
+        }
+        PrintStyle.error(str(e))
+
+    # respond with json
+    return jsonify(response)
+
+# pausing/unpausing the agent
+@app.route("/pause", methods=["POST"])
+async def pause():
+    try:
+
+        # data sent to the server
+        input = request.get_json()
+        paused = input.get("paused", False)
+        ctxid = input.get("context", "")
+
+        # context instance - get or create
+        context = get_context(ctxid)
+
+        context.paused = paused
+
+        response = {
+            "ok": True,
+            "message": "Agent paused." if paused else "Agent unpaused.",
+            "pause": paused,
+        }
+
+    except Exception as e:
+        response = {
+            "ok": False,
+            "message": str(e),
+        }
+        PrintStyle.error(str(e))
+
+    # respond with json
+    return jsonify(response)
+
+# load chats from json
+@app.route("/loadChats", methods=["POST"])
+async def load_chats():
+    try:
+        # data sent to the server
+        input = request.get_json()
+        chats = input.get("chats", [])
+        if not chats:
+            raise Exception("No chats provided")
+
+        ctxids = persist_chat.load_json_chats(chats)
+
+        response = {
+            "ok": True,
+            "message": "Chats loaded.",
+            "ctxids": ctxids,
+        }
+
+    except Exception as e:
+        response = {
+            "ok": False,
+            "message": str(e),
+        }
+        PrintStyle.error(str(e))
+
+    # respond with json
+    return jsonify(response)
+
+
+# load chats from json
+@app.route("/exportChat", methods=["POST"])
+async def export_chat():
+    try:
+        # data sent to the server
+        input = request.get_json()
+        ctxid = input.get("ctxid", "")
+        if not ctxid:
+            raise Exception("No context id provided")
+
+        context = get_context(ctxid)
+        content = persist_chat.export_json_chat(context)
+
+        response = {
+            "ok": True,
+            "message": "Chats loaded.",
+            "ctxid": context.id,
+            "content": content,
+        }
+
+    except Exception as e:
+        response = {
+            "ok": False,
+            "message": str(e),
+        }
+        PrintStyle.error(str(e))
+
+    # respond with json
+    return jsonify(response)
+
+# restarting with new agent0
+@app.route("/reset", methods=["POST"])
+async def reset():
+    try:
+
+        # data sent to the server
+        input = request.get_json()
+        ctxid = input.get("context", "")
+
+        # context instance - get or create
+        context = get_context(ctxid)
+        context.reset()
+        persist_chat.save_tmp_chat(context)
+
+        response = {
+            "ok": True,
+            "message": "Agent restarted.",
+        }
+
+    except Exception as e:
+        response = {
+            "ok": False,
+            "message": str(e),
+        }
+        PrintStyle.error(str(e))
+
+    # respond with json
+    return jsonify(response)
+
+
 
 @app.route("/poll", methods=["POST"])
 async def poll():
